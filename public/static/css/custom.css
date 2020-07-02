@@ -1,0 +1,7 @@
+.card-header .d-flex {align-items: center; justify-content: space-between;}
+.card-body .paginate .page-item {
+    margin: 10px;
+}
+.modal-full-tuan {
+    max-width: 950px!important;
+}
