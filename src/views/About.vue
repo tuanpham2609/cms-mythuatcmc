@@ -35,7 +35,12 @@
               </tr>
             </tbody>
           </table>
-          <div class="paginate"></div>
+          <div class="paginate">
+            <pagi :current="list_post.current_page"
+                v-model="list_post.current_page"
+                :total="list_post.last_page">
+            </pagi>
+          </div>
         </div>
       </div>
     </div>
@@ -119,11 +124,19 @@
   </div>
 </template>
 <script>
+  import Pagi from '@/components/paginate';
   export default {
+    components: {Pagi},
     data() {
       return {
         about: {},
         abouts:[],
+        list_post:{
+          current_page : 1,
+          last_page : 0,
+          total : 0,
+          per_page : 0
+        },
       }
     },
     created() {
@@ -132,10 +145,12 @@
     methods: {
       getListAbout(){
         var vm = this;
-        vm.$http.get('/admin/about')
+        vm.$http.get(`/admin/about?page=${this.list_post.current_page}`)
           .then(function (res) {
             vm.abouts = res.data.abouts.data;
-            console.log(res)
+            vm.list_post.current_page = res.data.abouts.current_page;
+            vm.list_post.last_page = res.data.abouts.last_page;
+            vm.list_post.total = res.data.abouts.total;
           })
           .catch(function (error) {
             console.log(error);
@@ -183,6 +198,11 @@
             // handle error
             console.log(error);
         })
+      }
+    },
+    watch:{
+      'list_post.current_page':function(new_val){
+        this.getListAbout();
       }
     }
   }
