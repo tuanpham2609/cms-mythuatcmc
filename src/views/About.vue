@@ -36,13 +36,12 @@
             </tbody>
           </table>
           <div class="paginate">
-            <pagi :current="list_post.current_page"
-                v-model="list_post.current_page"
-                :total="list_post.last_page">
+            <pagi :current="list_post.current_page" v-model="list_post.current_page" :total="list_post.last_page">
             </pagi>
           </div>
         </div>
       </div>
+      <input @change="onFileChanged" type="file" accept="image/*">
     </div>
     <!-- modal create -->
     <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -66,6 +65,10 @@
                   <fieldset class="form-group">
                     <label>Nội dung:</label>
                     <input class="form-control" placeholder="Nhập tên thể loại" v-model="about.content">
+                  </fieldset>
+                  <fieldset class="form-group">
+                    <label>ảnh:</label>
+                    <input @change="onFileChanged()" type="file" accept="image/*">
                   </fieldset>
                 </form>
               </div>
@@ -118,32 +121,35 @@
       </div>
 
     </div>
-
+    <modal v-if="showModal" v-on:cropImage="getImageCrop" :imgSrc="userImage" @close="showModal = false"></modal>
     <!-- modal edit -->
 
   </div>
 </template>
 <script>
   import Pagi from '@/components/paginate';
+  import Modal from '@/components/modal';
   export default {
-    components: {Pagi},
+    components: { Pagi, Modal },
     data() {
       return {
         about: {},
-        abouts:[],
-        list_post:{
-          current_page : 1,
-          last_page : 0,
-          total : 0,
-          per_page : 0
+        abouts: [],
+        list_post: {
+          current_page: 1,
+          last_page: 0,
+          total: 0,
+          per_page: 0
         },
+        showModal: false,
+        userImage: '',
       }
     },
     created() {
       this.getListAbout();
     },
     methods: {
-      getListAbout(){
+      getListAbout() {
         var vm = this;
         vm.$http.get(`/admin/about?page=${this.list_post.current_page}`)
           .then(function (res) {
@@ -157,7 +163,7 @@
           })
       },
       addNew() {
-        this.$http.post('/admin/about', { name: this.about.name,content: this.about.content})
+        this.$http.post('/admin/about', { name: this.about.name, content: this.about.content })
           .then(function (res) {
             console.log(res)
           })
@@ -165,43 +171,73 @@
             console.log(error);
           })
       },
-      editCate(item){
+      editCate(item) {
         var vm = this;
-        this.$http.get('admin/about/'+item+'/edit')
-        .then(function (res) {
-          $('#edit').modal('show');
-          vm.about = res.data.data;
-        })
-        .catch(function (error) {
+        this.$http.get('admin/about/' + item + '/edit')
+          .then(function (res) {
+            $('#edit').modal('show');
+            vm.about = res.data.data;
+          })
+          .catch(function (error) {
             // handle error
             console.log(error);
-        })
+          })
       },
-      updateCate(){
+      updateCate() {
         var vm = this;
-        this.$http.put('admin/about/'+vm.about.id,vm.about)
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (error) {
+        this.$http.put('admin/about/' + vm.about.id, vm.about)
+          .then(function (res) {
+            console.log(res);
+          })
+          .catch(function (error) {
             // handle error
             console.log(error);
-        })
+          })
       },
-      removeCate(item){
+      removeCate(item) {
         var vm = this;
-        this.$http.delete('admin/about/'+item)
-        .then(function (res) {
-          console.log(res);
-        })
-        .catch(function (error) {
+        this.$http.delete('admin/about/' + item)
+          .then(function (res) {
+            console.log(res);
+          })
+          .catch(function (error) {
             // handle error
             console.log(error);
-        })
+          })
+      },
+      onFileChanged(event) {
+        var files = event.target.files || event.dataTransfer.files;
+        if (!files.length) {
+          return;
+        }
+        this.selected_file = files[0];
+        this.createImage(files[0]);
+      },
+      createImage (file) {
+        var reader = new FileReader();
+        var _this = this;
+        reader.onload = (e) => {
+          _this.userImage = e.target.result;
+          this.showModal = true;
+        }
+        reader.readAsDataURL(file);
+      },
+      getImageCrop (img) {
+        this.onUpload(img);
+        this.$forceUpdate();
+      },
+      onUpload(img){
+        this.$http.post('/admin/upload-img', { image: img })
+          .then(function (res) {
+            console.log(res)
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       }
     },
-    watch:{
-      'list_post.current_page':function(new_val){
+    watch: {
+      'list_post.current_page': function (new_val) {
         this.getListAbout();
       }
     }
