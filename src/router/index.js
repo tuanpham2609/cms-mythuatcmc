@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Image from "../views/image.vue";
+import Ckeditor from "../components/ckeditor.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,11 @@ const routes = [
     path: "/img",
     name: "Image",
     component: Image
+  },
+  {
+    path: "/ckeditor",
+    name: "Ckeditor",
+    component: Ckeditor
   },
 ];
 

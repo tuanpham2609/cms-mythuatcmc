@@ -23,6 +23,7 @@
                 <td>{{index + 1}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.content}}</td>
+                <td v-html="item.content"></td>
                 <td>
                   <button class="btn btn-primary edit" data-toggle="modal" data-target="#edit" type="button"
                     @click.stop.prevent="editCate(item.id)">
@@ -42,6 +43,7 @@
         </div>
       </div>
       <input @change="onFileChanged" type="file" accept="image/*">
+      <ckeditor v-on:dataCkeditor="getdataCkeditor"></ckeditor>
     </div>
     <!-- modal create -->
     <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -65,6 +67,7 @@
                   <fieldset class="form-group">
                     <label>Nội dung:</label>
                     <input class="form-control" placeholder="Nhập tên thể loại" v-model="about.content">
+                    <ckeditor></ckeditor>
                   </fieldset>
                   <fieldset class="form-group">
                     <label>ảnh:</label>
@@ -129,8 +132,9 @@
 <script>
   import Pagi from '@/components/paginate';
   import Modal from '@/components/modal';
+  import Ckeditor from '@/components/ckeditor';
   export default {
-    components: { Pagi, Modal },
+    components: { Pagi, Modal,Ckeditor },
     data() {
       return {
         about: {},
@@ -234,6 +238,9 @@
           .catch(function (error) {
             console.log(error);
           })
+      },
+      getdataCkeditor(item){
+        this.about.content = item;
       }
     },
     watch: {
