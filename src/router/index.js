@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Image from "../views/image.vue";
 import Ckeditor from "../components/ckeditor.vue";
+import Signin from "../views/Signin.vue";
+import Dashboard from "../views/Dashboard.vue";
 
 Vue.use(VueRouter);
 
@@ -30,6 +32,16 @@ const routes = [
     path: "/ckeditor",
     name: "Ckeditor",
     component: Ckeditor
+  },
+  {
+    path: "/signin",
+    name: "Signin",
+    component: Signin
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard
   },
 ];
 
