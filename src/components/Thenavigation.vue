@@ -6,6 +6,7 @@
         <li><router-link :to="{name:'Dashboard'}">Dashboard</router-link></li>
         <li>{{user.name}}</li>
         <li>{{user.email}}</li>
+        <li><a href="#" @click.prevent="signOut()">Sign Out</a></li>
     </template>
     <template v-else>
         <li><router-link :to="{name:'Signin'}">Signin</router-link></li>
@@ -14,7 +15,7 @@
   </div>
 </template>
 <script>
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
     export default {
         computed: {
             ...mapGetters({
@@ -22,5 +23,17 @@
                 user : 'auth/user',
             })
         },
+        methods: {
+            ...mapActions({
+                signOutAction: 'auth/signOut'
+            }),
+            signOut(){
+                this.signOutAction().then(()=>{
+                    this.$router.replace({
+                        name: 'Signin'
+                    })
+                });
+            }
+        }
     }
 </script>

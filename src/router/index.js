@@ -5,6 +5,9 @@ import Image from "../views/image.vue";
 import Ckeditor from "../components/ckeditor.vue";
 import Signin from "../views/Signin.vue";
 import Dashboard from "../views/Dashboard.vue";
+import store from "@/store";
+import About from "../views/About.vue";
+
 
 Vue.use(VueRouter);
 
@@ -17,16 +20,28 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    component: About,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
   },
   {
     path: "/img",
     name: "Image",
-    component: Image
+    component: Image,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
   },
   {
     path: "/ckeditor",
@@ -41,7 +56,15 @@ const routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
   },
 ];
 
