@@ -43,7 +43,7 @@
         </div>
       </div>
       <ckeditor v-on:dataCkeditor="getdataCkeditor"></ckeditor>
-      <upload-img></upload-img>
+      <uploadimg v-on:dataImages="getdataImage"></uploadimg>
     </div>
     <!-- modal create -->
     <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -128,9 +128,9 @@
   import Paginate from '@/components/paginate';
   import Modal from '@/components/modal';
   import Ckeditor from '@/components/ckeditor';
-  import UploadImg from '@/components/imageUploader';
+  import Uploadimg from '@/components/imageUploader';
   export default {
-    components: { Pagi, Modal,Ckeditor,UploadImg},
+    components: { Paginate, Modal,Ckeditor,Uploadimg},
     data() {
       return {
         about: {},
@@ -205,6 +205,9 @@
       },
       getdataCkeditor(item){
         this.about.content = item;
+      },
+      getdataImage(item){
+        console.log(item, 'hihi')
       }
     },
     watch: {
