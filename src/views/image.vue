@@ -23,7 +23,7 @@
                     <img :src="$store.state.api+'/img/'+item.img" class="img-fluid" width="100px">
                 </td>
                 <td>
-                  <button class="btn btn-danger delete" type="button" @click.stop.prevent="removeCate(item.id)">
+                  <button class="btn btn-danger delete" type="button" @click.stop.prevent="removeImg(item.id)">
                     <i class="fas fa-trash-alt"></i>
                   </button>
                 </td>
@@ -57,6 +57,17 @@
             console.log(error);
           })
       },
+      removeImg(id){
+        var vm = this;
+        vm.$http.delete(`/admin/upload-img/${id}`)
+          .then(function (res) {
+            console.log(res);
+            vm.getListImg();
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
     },
     watch: {
     }
