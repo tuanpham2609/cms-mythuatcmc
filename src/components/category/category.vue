@@ -57,18 +57,22 @@
                         <div class="row" style="margin: 5px">
                             <div class="col-lg-12">
                                 <form role="form">
+                                <pre>{{$v.category.name}}</pre>
                                     <fieldset class="form-group">
                                         <label>Tên thể loại:</label>
-                                        <input class="form-control" placeholder="Nhập tên thể loại"
-                                            v-model="category.name">
+                                        <input class="form-control" v-model.trim="$v.category.name.$model" placeholder="Nhập tên thể loại">
+                                        <p class="validation" :class="{ 'validation-active': $v.category.name.$error }" v-if="!$v.category.name.required">
+                                            Field is required.
+                                        </p>
                                     </fieldset>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" @click.stop.prevent="addNew()">Save</button>
-                        <button type="reset" class="btn btn-primary">Làm Lại</button>
+                        <button type="button" class="btn btn-success" @click.stop.prevent="addNew()" :disabled="$v.$invalid">
+                            Save
+                        </button>
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -114,7 +118,8 @@
 </template>
 <script>
     import Paginate from '@/components/paginate';
-    
+    import { required, minLength } from 'vuelidate/lib/validators';
+
     export default {
         components: { Paginate },
         data() {
@@ -130,6 +135,13 @@
                     last_page: 0,
                     total: 0,
                     per_page: 0
+                },
+            }
+        },
+        validations:{
+            category: {
+                name: {
+                    required,
                 }
             }
         },
@@ -158,6 +170,7 @@
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#create').modal('hide');
                         vm.getListCategory();
+                        vm.category = {};
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -183,6 +196,7 @@
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#edit').modal('hide');
                         vm.getListCategory();
+                        vm.category = {};
                     })
                     .catch(function (error) {
                         // handle error
