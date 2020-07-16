@@ -8,6 +8,7 @@ import Dashboard from "../views/Dashboard.vue";
 import store from "@/store";
 import About from "../views/About.vue";
 import Category from "../components/category/category.vue";
+import Post from "../components/post/post.vue";
 
 Vue.use(VueRouter);
 
@@ -70,6 +71,19 @@ const routes = [
     path: "/category",
     name: "Category",
     component: Category,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/post",
+    name: "Post",
+    component: Post,
     beforeEnter: (to, from, next)=>{
       if(!store.getters['auth/authenticated']){
         return next({
