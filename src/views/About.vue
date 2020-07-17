@@ -149,7 +149,7 @@
     methods: {
       getListAbout() {
         var vm = this;
-        vm.$http.get(`/admin/about?page=${this.list_post.current_page}`)
+        vm.$http.get(`${vm.$store.state.api}/admin/about?page=${this.list_post.current_page}`)
           .then(function (res) {
             vm.abouts = res.data.abouts.data;
             vm.list_post.current_page = res.data.abouts.current_page;
@@ -161,7 +161,8 @@
           })
       },
       addNew() {
-        this.$http.post('/admin/about', { name: this.about.name, content: this.about.content })
+        var vm = this;
+        this.$http.post(`${vm.$store.state.api}/admin/about`, { name: this.about.name, content: this.about.content })
           .then(function (res) {
             console.log(res)
           })
@@ -171,7 +172,7 @@
       },
       editCate(item) {
         var vm = this;
-        this.$http.get('admin/about/' + item + '/edit')
+        this.$http.get(vm.$store.state.api+'/admin/about/' + item + '/edit')
           .then(function (res) {
             $('#edit').modal('show');
             vm.about = res.data.data;
@@ -183,7 +184,7 @@
       },
       updateCate() {
         var vm = this;
-        this.$http.put('admin/about/' + vm.about.id, vm.about)
+        this.$http.put(vm.$store.state.api+'/admin/about/' + vm.about.id, vm.about)
           .then(function (res) {
             console.log(res);
           })
@@ -194,7 +195,7 @@
       },
       removeCate(item) {
         var vm = this;
-        this.$http.delete('admin/about/' + item)
+        this.$http.delete(vm.$store.state.api+'/admin/about/' + item)
           .then(function (res) {
             console.log(res);
           })

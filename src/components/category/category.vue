@@ -153,7 +153,7 @@
         methods: {
             getListCategory() {
                 var vm = this;
-                vm.$http.get(`/admin/category?page=${this.list_post.current_page}`)
+                vm.$http.get(`${vm.$store.state.api}/admin/category?page=${this.list_post.current_page}`)
                     .then(function (res) {
                         vm.categories = res.data.categories.data;
                         vm.list_post.current_page = res.data.categories.current_page;
@@ -167,7 +167,7 @@
             addNew() {
                 var vm = this;
                 vm.category.slug = vm.$helper.ChangeToSlug(this.category.name);
-                vm.$http.post('/admin/category', vm.category)
+                vm.$http.post(`${vm.$store.state.api}/admin/category`, vm.category)
                     .then(function (res) {
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#create').modal('hide');
@@ -180,7 +180,7 @@
             },
             editCate(item) {
                 var vm = this;
-                this.$http.get('admin/category/' + item + '/edit')
+                this.$http.get(vm.$store.state.api+'/admin/category/' + item + '/edit')
                     .then(function (res) {
                         $('#edit').modal('show');
                         vm.category = res.data.data;
@@ -193,7 +193,7 @@
             updateCate() {
                 var vm = this;
                 vm.category.slug = vm.$helper.ChangeToSlug(this.category.name);
-                vm.$http.put('admin/category/' + vm.category.id, vm.category)
+                vm.$http.put(vm.$store.state.api+'/admin/category/' + vm.category.id, vm.category)
                     .then(function (res) {
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#edit').modal('hide');
@@ -207,7 +207,7 @@
             },
             removeCate(item) {
                 var vm = this;
-                vm.$http.delete('admin/category/' + item)
+                vm.$http.delete(vm.$store.state.api+'/admin/category/' + item)
                     .then(function (res) {
                         vm.getListCategory();
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);

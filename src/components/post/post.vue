@@ -15,6 +15,7 @@
                                 <th>#</th>
                                 <th>Tên</th>
                                 <th>Tên không dấu</th>
+                                <th>Hình ảnh</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
@@ -24,12 +25,15 @@
                                 <td>{{item.name}}</td>
                                 <td>{{item.slug}}</td>
                                 <td>
+                                    <img :src="$store.state.api+'/img/'+item.image" class="img-fluid" width="100px">
+                                </td>
+                                <td>
                                     <button class="btn btn-primary edit" data-toggle="modal" data-target="#edit"
-                                        type="button" @click.stop.prevent="editCate(item.id)">
+                                        type="button" @click.stop.prevent="editForm(item.id)">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete" type="button"
-                                        @click.stop.prevent="removeCate(item.id)">
+                                        @click.stop.prevent="removeForm(item.id)">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
@@ -136,17 +140,58 @@
                             <div class="col-lg-12">
                                 <form role="form">
                                     <fieldset class="form-group">
-                                        <label>Tên thể loại:</label>
-                                        <input class="form-control" placeholder="Nhập tên thể loại"
-                                            v-model="post.name">
+                                        <label>Tên tin tức:</label>
+                                        <input class="form-control" v-model.trim="$v.post.name.$model" placeholder="Nhập tên tin tức">
+                                        <p class="validation" :class="{ 'validation-active': $v.post.name.$error }" v-if="!$v.post.name.required">
+                                            Tên không được trống.
+                                        </p>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            <label for="">Thể loại tin tức:</label>
+                                            <select class="form-control" v-model="post.idCategory">
+                                                <option v-for="(item, index) in categories" :key="index" :value="item.id">
+                                                    {{item.name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            <label for="">Tin Nổi bật:</label>
+                                            <select class="form-control" v-model="post.new_highlights">
+                                                <option value="0">Không</option>
+                                                <option value="1">Có</option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            <label for="">Nội dung ngắn:</label>
+                                            <textarea class="form-control" name="" id="" rows="3" v-model.trim="$v.post.short_content.$model"></textarea>
+                                            <p class="validation" :class="{ 'validation-active': $v.post.short_content.$error }" v-if="!$v.post.short_content.required">
+                                                Nội dung ngắn không được trống.
+                                            </p>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            <label for="">Nội dung: </label>
+                                            <ckeditor v-on:dataCkeditor="getdataCkeditor" :data="post.description"></ckeditor>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="form-group">
+                                        <div class="form-group">
+                                            <label for="">Hình ảnh: </label>
+                                            <uploadimg v-on:dataImages="getdataImage" :data="post.image"></uploadimg>
+                                        </div>
                                     </fieldset>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" @click.stop.prevent="updateCate()">Save</button>
-                        <button type="reset" class="btn btn-primary">Làm Lại</button>
+                        <button type="button" class="btn btn-success" @click.stop.prevent="updateForm()" :disabled="$v.$invalid">Save</button>
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
@@ -205,12 +250,12 @@
         methods: {
             getListPost() {
                 var vm = this;
-                vm.$http.get(`/admin/post?page=${this.list_post.current_page}`)
+                vm.$http.get(`${vm.$store.state.api}/admin/post?page=${this.list_post.current_page}`)
                     .then(function (res) {
-                        // vm.posts = res.data.posts.data;
-                        // vm.list_post.current_page = res.data.posts.current_page;
-                        // vm.list_post.last_page = res.data.posts.last_page;
-                        // vm.list_post.total = res.data.posts.total;
+                        vm.posts = res.data.posts.data;
+                        vm.list_post.current_page = res.data.posts.current_page;
+                        vm.list_post.last_page = res.data.posts.last_page;
+                        vm.list_post.total = res.data.posts.total;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -218,7 +263,7 @@
             },
             getListCategory(){
                 var vm = this;
-                vm.$http.get(`/admin/category-all`)
+                vm.$http.get(`${vm.$store.state.api}/admin/category-all`)
                     .then(function (res) {
                         vm.categories = res.data.categories;
                         vm.post.idCategory = vm.categories[0].id;
@@ -230,7 +275,7 @@
             addNew() {
                 var vm = this;
                 vm.post.slug = vm.$helper.ChangeToSlug(this.post.name);
-                vm.$http.post('/admin/post', vm.post)
+                vm.$http.post(`${vm.$store.state.api}/admin/post`, vm.post)
                     .then(function (res) {
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#create').modal('hide');
@@ -241,9 +286,9 @@
                         console.log(error);
                     })
             },
-            editCate(item) {
+            editForm(item) {
                 var vm = this;
-                this.$http.get('admin/post/' + item + '/edit')
+                this.$http.get(vm.$store.state.api+'/admin/post/' + item + '/edit')
                     .then(function (res) {
                         $('#edit').modal('show');
                         vm.post = res.data.data;
@@ -253,10 +298,10 @@
                         console.log(error);
                     })
             },
-            updateCate() {
+            updateForm() {
                 var vm = this;
                 vm.post.slug = vm.$helper.ChangeToSlug(this.post.name);
-                vm.$http.put('admin/post/' + vm.post.id, vm.post)
+                vm.$http.put(vm.$store.state.api+'/admin/post/' + vm.post.id, vm.post)
                     .then(function (res) {
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                         $('#edit').modal('hide');
@@ -268,9 +313,9 @@
                         console.log(error);
                     })
             },
-            removeCate(item) {
+            removeForm(item) {
                 var vm = this;
-                vm.$http.delete('admin/post/' + item)
+                vm.$http.delete(vm.$store.state.api+'/admin/post/' + item)
                     .then(function (res) {
                         vm.getListPost();
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
@@ -284,7 +329,7 @@
                 this.post.description = item;
             },
             getdataImage(item){
-                console.log(item, 'hihi')
+                this.post.image = item;
             }
         },
         watch: {

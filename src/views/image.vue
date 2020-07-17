@@ -49,7 +49,7 @@
     methods: {
       getListImg() {
         var vm = this;
-        vm.$http.get(`/admin/upload-img`)
+        vm.$http.get(`${vm.$store.state.api}/admin/upload-img`)
           .then(function (res) {
             vm.images = res.data.images;
           })
@@ -59,7 +59,7 @@
       },
       removeImg(id){
         var vm = this;
-        vm.$http.delete(`/admin/upload-img/${id}`)
+        vm.$http.delete(`${vm.$store.state.api}/admin/upload-img/${id}`)
           .then(function (res) {
             console.log(res);
             vm.getListImg();

@@ -55,6 +55,7 @@
                 dataImage: ''
             }
         },
+        props:['data'],
         methods: {
             onFileChanged(event) {
                 var files = event.target.files || event.dataTransfer.files;
@@ -79,7 +80,7 @@
             },
             onUpload(img) {
                 var vm = this;
-                vm.$http.post('/admin/upload-img', { image: img })
+                vm.$http.post(vm.$store.state.api+'/admin/upload-img', { image: img })
                     .then(function (res) {
                         vm.dataImage = res.data.data.img;
                         vm.$emit('dataImages', vm.dataImage);
@@ -88,6 +89,11 @@
                     .catch(function (error) {
                         console.log(error);
                     })
+            }
+        },
+        watch: {
+            'data':function(){
+                this.dataImage = this.data;
             }
         },
     }

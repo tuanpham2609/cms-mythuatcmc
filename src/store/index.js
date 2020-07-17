@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    api: 'http://localhost:8080',
+    api: 'http://127.0.0.1:8000',
     domain: 'http://127.0.0.1:8000',
   },
   mutations: {},

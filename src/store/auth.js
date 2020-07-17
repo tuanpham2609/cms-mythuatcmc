@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '@/store';
 
 export default {
     namespaced: true,
@@ -24,26 +25,26 @@ export default {
     },
     actions: {
         async signIn({ dispatch }, credentials) {
-            let response = await axios.post(`/api/auth/signin`, credentials);
+            let response = await axios.post(`${store.state.api}/api/auth/signin`, credentials);
             return dispatch('attempt', response.data.token);
         },
-        async attempt({ commit ,state}, token) {
-            if(token){
+        async attempt({ commit, state }, token) {
+            if (token) {
                 commit('SET_TOKEN', token);
             }
-            if(!state.token){
+            if (!state.token) {
                 return;
             }
             try {
-                let response = await axios.get('/api/auth/me');
+                let response = await axios.get(`${store.state.api}/api/auth/me`);
                 commit('SET_USER', response.data);
             } catch (e) {
                 commit('SET_TOKEN', null);
                 commit('SET_USER', null);
             }
         },
-        signOut({commit}){
-            return axios.post('/api/auth/signout').then(()=>{
+        signOut({ commit }) {
+            return axios.post(`${store.state.api}/api/auth/signout`).then(() => {
                 commit('SET_TOKEN', null);
                 commit('SET_USER', null);
             })
