@@ -11,7 +11,6 @@
         </div>
         <app-footer />
       </div>
-      <navi />
     </div>
   </div>
 </template>
@@ -19,13 +18,11 @@
   import AppHeader from "@/layouts/partials/header";
   import AppFooter from "@/layouts/partials/footer";
   import AppMenu from "@/layouts/partials/menu";
-  import Navi from "../components/Thenavigation.vue";
   export default {
     components: {
       AppHeader,
       AppFooter,
       AppMenu,
-      Navi,
     }
   }
 </script>

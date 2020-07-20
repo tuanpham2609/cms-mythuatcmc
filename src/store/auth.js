@@ -1,5 +1,7 @@
 import axios from "axios";
 import store from '@/store';
+import router from '@/router';
+import helper from '@/plugins/helper';
 
 export default {
     namespaced: true,
@@ -26,7 +28,11 @@ export default {
     actions: {
         async signIn({ dispatch }, credentials) {
             let response = await axios.post(`${store.state.api}/api/auth/signin`, credentials);
-            return dispatch('attempt', response.data.token);
+            if(response.data.mess) {
+                return helper.showNotification('Vui lòng kiểm tra lại thông tin đăng nhập','sentiment_satisfied_alt','rose',300);
+            } else {
+                return dispatch('attempt', response.data.token);
+            }
         },
         async attempt({ commit, state }, token) {
             if (token) {

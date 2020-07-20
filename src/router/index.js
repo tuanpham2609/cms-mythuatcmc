@@ -1,14 +1,14 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-import Image from "../views/image.vue";
+import Home from "../components/home/home.vue";
+import Image from "../components/image-manage/image.vue";
 import Ckeditor from "../components/ckeditor.vue";
-import Signin from "../views/Signin.vue";
-import Dashboard from "../views/Dashboard.vue";
+import Signin from "../components/signin/signin";
 import store from "@/store";
 import About from "../views/About.vue";
 import Category from "../components/category/category.vue";
 import Post from "../components/post/post.vue";
+import User from "../components/user/user.vue";
 
 Vue.use(VueRouter);
 
@@ -16,7 +16,15 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
   },
   {
     path: "/about",
@@ -55,19 +63,6 @@ const routes = [
     component: Signin
   },
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
-        return next({
-          name: 'Signin'
-        });
-      }
-      next();
-    }
-  },
-  {
     path: "/category",
     name: "Category",
     component: Category,
@@ -84,6 +79,19 @@ const routes = [
     path: "/post",
     name: "Post",
     component: Post,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: User,
     beforeEnter: (to, from, next)=>{
       if(!store.getters['auth/authenticated']){
         return next({

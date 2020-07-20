@@ -75,7 +75,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-success" @click.stop.prevent="addNew()">Save</button>
-            <button type="reset" class="btn btn-primary">Làm Lại</button>
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           </div>
         </div>
@@ -111,7 +110,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-success" @click.stop.prevent="updateCate()">Save</button>
-            <button type="reset" class="btn btn-primary">Làm Lại</button>
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           </div>
 

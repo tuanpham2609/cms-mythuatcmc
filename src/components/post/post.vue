@@ -101,13 +101,16 @@
                                     <fieldset class="form-group">
                                         <div class="form-group">
                                             <label for="">Nội dung: </label>
-                                            <ckeditor v-on:dataCkeditor="getdataCkeditor"></ckeditor>
+                                            <ckeditor v-on:dataCkeditor="getdataCkeditor" v-model.trim="$v.post.description.$model"></ckeditor>
+                                            <p class="validation" :class="{ 'validation-active': $v.post.description.$error }" v-if="!$v.post.description.required">
+                                                Nội dung không được trống.
+                                            </p>
                                         </div>
                                     </fieldset>
                                     <fieldset class="form-group">
                                         <div class="form-group">
                                             <label for="">Hình ảnh: </label>
-                                            <uploadimg v-on:dataImages="getdataImage"></uploadimg>
+                                            <uploadimg v-on:dataImages="getdataImage" v-model.trim="$v.post.description.$model"></uploadimg>
                                         </div>
                                     </fieldset>
                                 </form>
@@ -177,7 +180,10 @@
                                     <fieldset class="form-group">
                                         <div class="form-group">
                                             <label for="">Nội dung: </label>
-                                            <ckeditor v-on:dataCkeditor="getdataCkeditor" :data="post.description"></ckeditor>
+                                            <ckeditor v-on:dataCkeditor="getdataCkeditor" :data="post.description" v-model.trim="$v.post.description.$model"></ckeditor>
+                                            <p class="validation" :class="{ 'validation-active': $v.post.description.$error }" v-if="!$v.post.description.required">
+                                                Nội dung không được trống.
+                                            </p>
                                         </div>
                                     </fieldset>
                                     <fieldset class="form-group">
@@ -239,6 +245,12 @@
                     required,
                 },
                 short_content: {
+                    required,
+                },
+                description: {
+                    required,
+                },
+                image: {
                     required,
                 }
             }

@@ -135,3 +135,128 @@
 .validation-active {
   display: block;
 }
+
+
+.login-page {
+  background: url(../img/login.jpg) no-repeat;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.login-page .form-log {
+  background: rgba(255, 255, 255, 0.65);
+  padding: 30px;
+  position: relative;
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 35%;
+}
+
+.login-page .form-log .icon-user {
+  position: absolute;
+  top: -40px;
+  right: 50%;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  width: 85px;
+  height: 85px;
+  background: rgba(45, 113, 157, 0.75);
+  text-align: center;
+  border-radius: 50%;
+}
+
+.login-page .form-log .icon-user > i {
+  font-size: 3em;
+  line-height: 85px;
+  color: #fff;
+}
+
+.login-page .form-log > h4 {
+  font-size: 24px;
+  font-weight: 600px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-page .form-log form h5 {
+  font-size: 14px;
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.login-page .form-log form input {
+  height: 43px;
+  background: #fff;
+  border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  padding-left: 40px;
+}
+
+.login-page .form-log form button {
+  width: 100%;
+  background: #2d719d;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  margin: 0px 0 15px;
+  -webkit-transition: all .5s ease;
+  transition: all .5s ease;
+  border: 0;
+}
+
+.login-page .form-log form button:hover {
+  background: #fff;
+  color: #2d719d;
+}
+
+.login-page .form-log form .checkbx {
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
+
+.login-page .form-log form .checkbx .checkbox-1 {
+  margin-bottom: 0;
+  float: left;
+}
+
+.login-page .form-log form .checkbx > a {
+  float: right;
+  text-decoration: underline;
+  color: #2d719d;
+}
+
+.login-page .form-log form .form-group {
+  position: relative;
+}
+
+.login-page .form-log form .form-group > i {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: #9b9b9b;
+}
+
+.login-page .form-log form > p {
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #fff;
+  padding-top: 15px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.login-page .form-log form > p > a {
+  text-transform: uppercase;
+  text-decoration: underline;
+}
