@@ -4,15 +4,12 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">{{user.name}}</a>
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <router-link to="/" class="nav-link collapsed">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
+                    <span>Home</span>
+                </router-link>
             </li>
-            <hr class="sidebar-divider">
-            <div class="sidebar-heading">
-                mỹ thuật cmc
-            </div>
+            <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -38,22 +35,22 @@
                 <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="admin/theloai">Thể loại</a>
-                        <a class="collapse-item" href="admin/tintuc">Tin tức</a>
+                        <router-link to="/category" class="collapse-item">Thể loại</router-link>
+                        <router-link to="/post" class="collapse-item">Tin tức</router-link>
                     </div>
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin/vechungtoi">
+                <router-link to="/img" class="nav-link" href="admin/vechungtoi">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>About</span>
-                </a>
+                    <span>Quản lí ảnh</span>
+                </router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="admin/lienhe">
+                <router-link to="/user" class="nav-link" href="admin/lienhe">
                     <i class="fas fa-heart"></i>
-                    <span>Liên hệ</span>
-                </a>
+                    <span>Quản lí user</span>
+                </router-link>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="admin/hinhanhchung">
