@@ -153,8 +153,10 @@
         methods: {
             getListCategory() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.get(`${vm.$store.state.api}/admin/category?page=${this.list_post.current_page}`)
                     .then(function (res) {
+                        vm.$store.state.loading = false;
                         vm.categories = res.data.categories.data;
                         vm.list_post.current_page = res.data.categories.current_page;
                         vm.list_post.last_page = res.data.categories.last_page;
@@ -166,10 +168,12 @@
             },
             addNew() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.category.slug = vm.$helper.ChangeToSlug(this.category.name);
                 vm.$http.post(`${vm.$store.state.api}/admin/category`, vm.category)
                     .then(function (res) {
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
+                        vm.$store.state.loading = false;
                         $('#create').modal('hide');
                         vm.getListCategory();
                         vm.category = {};
@@ -180,10 +184,12 @@
             },
             editCate(item) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 this.$http.get(vm.$store.state.api+'/admin/category/' + item + '/edit')
                     .then(function (res) {
                         $('#edit').modal('show');
                         vm.category = res.data.data;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         // handle error
@@ -192,10 +198,12 @@
             },
             updateCate() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.category.slug = vm.$helper.ChangeToSlug(this.category.name);
                 vm.$http.put(vm.$store.state.api+'/admin/category/' + vm.category.id, vm.category)
                     .then(function (res) {
-                        vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
+                        vm.$store.state.loading = false;
+                        vm.$helper.showNotification(res.data.messsage,'sentiment_satisfied_alt','success',300);
                         $('#edit').modal('hide');
                         vm.getListCategory();
                         vm.category = {};
@@ -207,9 +215,11 @@
             },
             removeCate(item) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.delete(vm.$store.state.api+'/admin/category/' + item)
                     .then(function (res) {
                         vm.getListCategory();
+                        vm.$store.state.loading = false;
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                     })
                     .catch(function (error) {

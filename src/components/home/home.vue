@@ -52,8 +52,10 @@
             },
             editAbout() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 this.$http.get(vm.$store.state.api+'/admin/about/' + 1 + '/edit')
                 .then(function (res) {
+                    vm.$store.state.loading = false;
                     vm.about = res.data.data;
                 })
                 .catch(function (error) {

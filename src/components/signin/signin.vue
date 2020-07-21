@@ -49,6 +49,9 @@
                 }
             }
         },
+        created() {
+            this.$store.state.loading = false;
+        },
         computed: {
             ...mapGetters({
                 authenticated : 'auth/authenticated',

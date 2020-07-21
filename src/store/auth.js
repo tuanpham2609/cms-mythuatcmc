@@ -27,10 +27,13 @@ export default {
     },
     actions: {
         async signIn({ dispatch }, credentials) {
+            store.state.loading = true;
             let response = await axios.post(`${store.state.api}/api/auth/signin`, credentials);
             if(response.data.mess) {
+                store.state.loading = false;
                 return helper.showNotification('Vui lòng kiểm tra lại thông tin đăng nhập','sentiment_satisfied_alt','rose',300);
             } else {
+                store.state.loading = false;
                 return dispatch('attempt', response.data.token);
             }
         },
@@ -50,9 +53,11 @@ export default {
             }
         },
         signOut({ commit }) {
+            store.state.loading = true;
             return axios.post(`${store.state.api}/api/auth/signout`).then(() => {
                 commit('SET_TOKEN', null);
                 commit('SET_USER', null);
+                store.state.loading = false;
             })
         }
     }

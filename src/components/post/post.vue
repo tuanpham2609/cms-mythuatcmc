@@ -262,12 +262,14 @@
         methods: {
             getListPost() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.get(`${vm.$store.state.api}/admin/post?page=${this.list_post.current_page}`)
                     .then(function (res) {
                         vm.posts = res.data.posts.data;
                         vm.list_post.current_page = res.data.posts.current_page;
                         vm.list_post.last_page = res.data.posts.last_page;
                         vm.list_post.total = res.data.posts.total;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -286,6 +288,7 @@
             },
             addNew() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.post.slug = vm.$helper.ChangeToSlug(this.post.name);
                 vm.$http.post(`${vm.$store.state.api}/admin/post`, vm.post)
                     .then(function (res) {
@@ -293,6 +296,7 @@
                         $('#create').modal('hide');
                         vm.getListPost();
                         vm.post = {};
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -300,10 +304,12 @@
             },
             editForm(item) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 this.$http.get(vm.$store.state.api+'/admin/post/' + item + '/edit')
                     .then(function (res) {
                         $('#edit').modal('show');
                         vm.post = res.data.data;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         // handle error
@@ -312,13 +318,15 @@
             },
             updateForm() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.post.slug = vm.$helper.ChangeToSlug(this.post.name);
                 vm.$http.put(vm.$store.state.api+'/admin/post/' + vm.post.id, vm.post)
                     .then(function (res) {
-                        vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
+                        vm.$helper.showNotification(res.data.messsage,'sentiment_satisfied_alt','success',300);
                         $('#edit').modal('hide');
                         vm.getListPost();
                         vm.post = {};
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         // handle error
@@ -327,9 +335,11 @@
             },
             removeForm(item) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.delete(vm.$store.state.api+'/admin/post/' + item)
                     .then(function (res) {
                         vm.getListPost();
+                        vm.$store.state.loading = false;
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                     })
                     .catch(function (error) {

@@ -140,12 +140,14 @@
         methods: {
             getListUser() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.get(`${vm.$store.state.api}/admin/user?page=${this.list_post.current_page}`)
                     .then(function (res) {
                         vm.users = res.data.users.data;
                         vm.list_post.current_page = res.data.users.current_page;
                         vm.list_post.last_page = res.data.users.last_page;
                         vm.list_post.total = res.data.users.total;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -153,15 +155,18 @@
             },
             addNew() {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.post(`${vm.$store.state.api}/admin/user`, vm.user)
                     .then(function (res) {
                         if(res.data.error){
                             vm.$helper.showNotification('Thông tin trên đã tồn tại','sentiment_satisfied_alt','rose',300);
+                            vm.$store.state.loading = false;
                         } else {
                             vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                             $('#create').modal('hide');
                             vm.getListUser();
                             vm.user = {};
+                            vm.$store.state.loading = false;
                         }
                     })
                     .catch(function (error) {
@@ -170,9 +175,11 @@
             },
             removeCate(item) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.delete(vm.$store.state.api+'/admin/user/' + item)
                     .then(function (res) {
                         vm.getListUser();
+                        vm.$store.state.loading = false;
                         vm.$helper.showNotification(res.data.message,'sentiment_satisfied_alt','success',300);
                     })
                     .catch(function (error) {

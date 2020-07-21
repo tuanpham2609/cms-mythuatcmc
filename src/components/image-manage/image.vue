@@ -45,49 +45,53 @@
     export default {
         components: { Paginate},
         data() {
-        return {
-            images:[],
-            list_post: {
-            current_page: 1,
-            last_page: 0,
-            total: 0,
-            per_page: 0
+            return {
+                images:[],
+                list_post: {
+                current_page: 1,
+                last_page: 0,
+                total: 0,
+                per_page: 0
+                }
             }
-        }
         },
         created() {
-        this.getListImg();
+            this.getListImg();
         },
         methods: {
-        getListImg() {
-            var vm = this;
-            vm.$http.get(`${vm.$store.state.api}/admin/upload-img?page=${this.list_post.current_page}`)
-            .then(function (res) {
-                vm.images = res.data.images.data;
-                vm.list_post.current_page = res.data.images.current_page;
-                vm.list_post.last_page = res.data.images.last_page;
-                vm.list_post.total = res.data.images.total;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        },
-        removeImg(id){
-            var vm = this;
-            vm.$http.delete(`${vm.$store.state.api}/admin/upload-img/${id}`)
-            .then(function (res) {
-                console.log(res);
-                vm.getListImg();
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        }
+            getListImg() {
+                var vm = this;
+                vm.$store.state.loading = true;
+                vm.$http.get(`${vm.$store.state.api}/admin/upload-img?page=${this.list_post.current_page}`)
+                .then(function (res) {
+                    vm.images = res.data.images.data;
+                    vm.list_post.current_page = res.data.images.current_page;
+                    vm.list_post.last_page = res.data.images.last_page;
+                    vm.list_post.total = res.data.images.total;
+                    vm.$store.state.loading = false;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+            },
+            removeImg(id){
+                var vm = this;
+                vm.$store.state.loading = true;
+                vm.$http.delete(`${vm.$store.state.api}/admin/upload-img/${id}`)
+                .then(function (res) {
+                    console.log(res);
+                    vm.getListImg();
+                    vm.$store.state.loading = false;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+            }
         },
         watch: {
-        'list_post.current_page': function (new_val) {
-            this.getListImg();
-        }
+            'list_post.current_page': function (new_val) {
+                this.getListImg();
+            }
         }
     }
 </script>
