@@ -7,6 +7,16 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="logo">
+                    <label>Cấu hình logo:</label> 
+                    <uploadimg v-on:dataImages="getdataImage" :data="data.img"></uploadimg>
+                    <label>Cấu hình Banner:</label> 
+                    <div class="d-flex" >
+                        <uploadimgs v-on:dataImages="getdataImage1" :data="data.imgs"></uploadimgs>
+                    </div>
+                    <button type="button" class="btn btn-primary mb-2" @click.stop.prevent="UpdateImage()">Update Image</button>
+                </div>
+                <hr>
                 <div class="about">
                     <label>Cấu hình about:</label> 
                     <ckeditor v-on:dataCkeditor="getdataCkeditor" v-model.trim="$v.about.content.$model" :data="about.content"></ckeditor> 
@@ -23,8 +33,11 @@
     import Paginate from '@/components/paginate';
     import { required, minLength } from 'vuelidate/lib/validators';
     import Ckeditor from '@/components/ckeditor';
+    import Uploadimg from '@/components/imageUploader';
+    import Uploadimgs from '@/components/uploadFiles';
+
     export default {
-        components: { Paginate ,Ckeditor},
+        components: { Paginate ,Ckeditor,Uploadimg,Uploadimgs},
         data() {
             return {
                 list_post: {
@@ -33,7 +46,11 @@
                     total: 0,
                     per_page: 0
                 },
-                about:{content:'',name:'Tuan Pham'}
+                about:{content:'',name:'Tuan Pham'},
+                data: {
+                    img:'',
+                    imgs:[]
+                }
             }
         },
         validations:{
@@ -55,8 +72,10 @@
                 vm.$store.state.loading = true;
                 this.$http.get(vm.$store.state.api+'/admin/about/' + 1 + '/edit')
                 .then(function (res) {
-                    vm.$store.state.loading = false;
                     vm.about = res.data.data;
+                    vm.data = JSON.parse(res.data.home.data);
+                    console.log(vm.data)
+                    vm.$store.state.loading = false;
                 })
                 .catch(function (error) {
                     // handle error
@@ -65,9 +84,34 @@
             },
             UpdateAbout(){
                 var vm = this;
+                vm.$store.state.loading = true;
                 this.$http.put(vm.$store.state.api+'/admin/about/' + 1, vm.about)
                 .then(function (res) {
+                    vm.$store.state.loading = false;
                     vm.$helper.showNotification(res.data.messsage,'sentiment_satisfied_alt','success',300);
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+            },
+            getdataImage(item){
+                this.data.img = item;
+            },
+            getdataImage1(item){
+                this.data.imgs.push(item);
+            },
+            UpdateImage(){
+                var vm = this;
+                vm.data = JSON.stringify(vm.data);
+                let send_data = {
+                    data: vm.data
+                }
+                vm.$store.state.loading = true;
+                this.$http.put(vm.$store.state.api+'/admin/home/'+1,send_data)
+                .then(function (res) {
+                    vm.$store.state.loading = false;
+                    vm.editAbout();
                 })
                 .catch(function (error) {
                     // handle error

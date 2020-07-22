@@ -14,7 +14,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Tên</th>
-                                <th>Tên không dấu</th>
+                                <th>Ngày tạo</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
@@ -22,7 +22,7 @@
                             <tr v-for="(item, index) in categories" :key="index">
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
-                                <td>{{item.slug}}</td>
+                                <td>{{item.created_at | moment("DD-MM-YYYY") }}</td>
                                 <td>
                                     <button class="btn btn-primary edit" data-toggle="modal" data-target="#edit"
                                         type="button" @click.stop.prevent="editCate(item.id)">

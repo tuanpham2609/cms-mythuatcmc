@@ -98,9 +98,10 @@
         color: #ffffff; }
     .alert i[data-notify="icon"] {
       display: block;
-      left: 15px;
-      top: 10px;
       position: absolute;
+      top: 50%;
+      left: 0%;
+      transform: translate(50%, -50%);
       font-size: 20px;
       background-color: #FFFFFF;
       padding: 9px;
@@ -109,7 +110,10 @@
       box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2); }
     .alert span {
       display: block;
-      max-width: 89%; }
+      max-width: 89%;
+      font-weight: 600;
+      font-size: 14px;
+     }
     .alert-icon {
       display: block;
       float: left;
