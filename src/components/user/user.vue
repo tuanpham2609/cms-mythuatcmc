@@ -14,6 +14,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Tên</th>
+                                <th>Email</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
@@ -21,6 +22,7 @@
                             <tr v-for="(item, index) in users" :key="index">
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
+                                <td>{{item.email}}</td>
                                 <td>
                                     <button class="btn btn-danger delete" type="button"
                                         @click.stop.prevent="removeCate(item.id)">

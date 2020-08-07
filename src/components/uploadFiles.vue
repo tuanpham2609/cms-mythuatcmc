@@ -83,11 +83,13 @@
             },
             onUpload(img) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.post(vm.$store.state.api+'/admin/upload-img', { image: img })
                     .then(function (res) {
                         vm.dataImage = res.data.data.img;
                         vm.$emit('dataImages', vm.dataImage);
                         vm.showModal = false;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error);

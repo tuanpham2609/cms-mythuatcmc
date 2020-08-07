@@ -8,6 +8,8 @@ import store from "@/store";
 import About from "../views/About.vue";
 import Category from "../components/category/category.vue";
 import Post from "../components/post/post.vue";
+import CreatePost  from "../components/post/create.vue";
+import EditPost  from "../components/post/edit.vue";
 import User from "../components/user/user.vue";
 
 Vue.use(VueRouter);
@@ -79,6 +81,32 @@ const routes = [
     path: "/post",
     name: "Post",
     component: Post,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/post/create",
+    name: "CreatePost",
+    component: CreatePost,
+    beforeEnter: (to, from, next)=>{
+      if(!store.getters['auth/authenticated']){
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/post/:id/edit",
+    name: "EditPost",
+    component: EditPost,
     beforeEnter: (to, from, next)=>{
       if(!store.getters['auth/authenticated']){
         return next({

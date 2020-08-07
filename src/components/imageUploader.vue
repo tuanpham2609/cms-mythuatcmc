@@ -31,7 +31,7 @@
     <div>
         <div class="upload-img">
             <img v-if="dataImage" alt="add image" :src="$store.state.domain+'/img/'+dataImage" class="img-fluid">
-            <img v-else alt="add image" src="static/img/upload-file.png" class="add-image">
+            <img v-else alt="add image" src="/static/img/upload-file.png" class="add-image">
             <div class="action-button">
                 <button class="btn btn-primary" type="button">
                     <label>
@@ -80,11 +80,13 @@
             },
             onUpload(img) {
                 var vm = this;
+                vm.$store.state.loading = true;
                 vm.$http.post(vm.$store.state.api+'/admin/upload-img', { image: img })
                     .then(function (res) {
                         vm.dataImage = res.data.data.img;
                         vm.$emit('dataImages', vm.dataImage);
                         vm.showModal = false;
+                        vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
                         console.log(error);

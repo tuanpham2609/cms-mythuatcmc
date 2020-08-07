@@ -63,7 +63,7 @@
                                         <label>Tên thể loại:</label>
                                         <input class="form-control" v-model.trim="$v.category.name.$model" placeholder="Nhập tên thể loại">
                                         <p class="validation" :class="{ 'validation-active': $v.category.name.$error }" v-if="!$v.category.name.required">
-                                            Field is required.
+                                            Tên không được để trống
                                         </p>
                                     </fieldset>
                                 </form>
@@ -99,7 +99,7 @@
                                         <label>Tên thể loại:</label>
                                         <input class="form-control" placeholder="Nhập tên thể loại" v-model.trim="$v.category.name.$model" >
                                         <p class="validation" :class="{ 'validation-active': $v.category.name.$error }" v-if="!$v.category.name.required">
-                                            Field is required.
+                                            Tên không được để trống
                                         </p>
                                     </fieldset>
                                 </form>
@@ -176,7 +176,8 @@
                         vm.$store.state.loading = false;
                         $('#create').modal('hide');
                         vm.getListCategory();
-                        vm.category = {};
+                        vm.category.name = '';
+                        vm.category.slug = '';
                     })
                     .catch(function (error) {
                         console.log(error);

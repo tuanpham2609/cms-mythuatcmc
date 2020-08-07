@@ -9,10 +9,10 @@
             <div class="card-body">
                 <div class="logo">
                     <label>Cấu hình logo:</label> 
-                    <uploadimg v-on:dataImages="getdataImage" :data="data.img"></uploadimg>
+                    <uploadimg v-on:dataImages="getdataImage" :data="data.image"></uploadimg>
                     <label>Cấu hình Banner:</label> 
                     <div class="d-flex" >
-                        <uploadimgs v-on:dataImages="getdataImage1" :data="data.imgs"></uploadimgs>
+                        <uploadimgs v-on:dataImages="getdataImage1" :data="data.data"></uploadimgs>
                     </div>
                     <button type="button" class="btn btn-primary mb-2" @click.stop.prevent="UpdateImage()">Update Image</button>
                 </div>
@@ -40,16 +40,10 @@
         components: { Paginate ,Ckeditor,Uploadimg,Uploadimgs},
         data() {
             return {
-                list_post: {
-                    current_page: 1,
-                    last_page: 0,
-                    total: 0,
-                    per_page: 0
-                },
                 about:{content:'',name:'Tuan Pham'},
                 data: {
-                    img:'',
-                    imgs:[]
+                    image:'',
+                    data:[]
                 }
             }
         },
@@ -73,8 +67,7 @@
                 this.$http.get(vm.$store.state.api+'/admin/about/' + 1 + '/edit')
                 .then(function (res) {
                     vm.about = res.data.data;
-                    vm.data = JSON.parse(res.data.home.data);
-                    console.log(vm.data)
+                    vm.data = res.data.home;
                     vm.$store.state.loading = false;
                 })
                 .catch(function (error) {
@@ -96,19 +89,15 @@
                 })
             },
             getdataImage(item){
-                this.data.img = item;
+                this.data.image = item;
             },
             getdataImage1(item){
-                this.data.imgs.push(item);
+                this.data.data.push(item);
             },
             UpdateImage(){
                 var vm = this;
-                vm.data = JSON.stringify(vm.data);
-                let send_data = {
-                    data: vm.data
-                }
                 vm.$store.state.loading = true;
-                this.$http.put(vm.$store.state.api+'/admin/home/'+1,send_data)
+                this.$http.put(vm.$store.state.api+'/admin/home/'+1,vm.data)
                 .then(function (res) {
                     vm.$store.state.loading = false;
                     vm.editAbout();
@@ -119,9 +108,5 @@
                 })
             }
         },
-        watch: {
-            'list_post.current_page': function (new_val) {
-            }
-        }
     }
 </script>
