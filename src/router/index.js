@@ -8,9 +8,11 @@ import store from "@/store";
 import About from "../views/About.vue";
 import Category from "../components/category/category.vue";
 import Post from "../components/post/post.vue";
-import CreatePost  from "../components/post/create.vue";
-import EditPost  from "../components/post/edit.vue";
+import CreatePost from "../components/post/create.vue";
+import EditPost from "../components/post/edit.vue";
 import User from "../components/user/user.vue";
+import Contact from "../components/contact/contact.vue";
+import Comment from "../components/comment/comment.vue";
 
 Vue.use(VueRouter);
 
@@ -19,8 +21,8 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -32,8 +34,8 @@ const routes = [
     path: "/about",
     name: "About",
     component: About,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -45,8 +47,8 @@ const routes = [
     path: "/img",
     name: "Image",
     component: Image,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -68,8 +70,8 @@ const routes = [
     path: "/category",
     name: "Category",
     component: Category,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -81,8 +83,8 @@ const routes = [
     path: "/post",
     name: "Post",
     component: Post,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -94,8 +96,8 @@ const routes = [
     path: "/post/create",
     name: "CreatePost",
     component: CreatePost,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -107,8 +109,8 @@ const routes = [
     path: "/post/:id/edit",
     name: "EditPost",
     component: EditPost,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });
@@ -120,8 +122,34 @@ const routes = [
     path: "/user",
     name: "User",
     component: User,
-    beforeEnter: (to, from, next)=>{
-      if(!store.getters['auth/authenticated']){
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/contact",
+    name: "Contact",
+    component: Contact,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
+        return next({
+          name: 'Signin'
+        });
+      }
+      next();
+    }
+  },
+  {
+    path: "/comment",
+    name: "Comment",
+    component: Comment,
+    beforeEnter: (to, from, next) => {
+      if (!store.getters['auth/authenticated']) {
         return next({
           name: 'Signin'
         });

@@ -3,36 +3,27 @@
         <ul :class="(isShow)?'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion':'navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled'" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">{{user.name}}</a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
+            <li :class="($route.path == '/')?'active nav-item':'nav-item'">
                 <router-link to="/" class="nav-link collapsed">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-cog"></i>
                     <span>Home</span>
                 </router-link>
             </li>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Trang chủ</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="admin/cauhinhtrangchu">Cấu hình trang chủ</a>
-                        <a class="collapse-item" href="admin/banner">banner</a>
-                        <a class="collapse-item" href="admin/cauhinhgiaovien">cấu hình giáo viên</a>
-                        <a class="collapse-item" href="admin/cauhinhhocsinh ">cấu hình học sinh</a>
-                    </div>
-                </div>
+            <li :class="($route.path == '/comment')?'active nav-item':'nav-item'">
+                <router-link to="/comment" class="nav-link">
+                    <i class="fas fa-heart"></i>
+                    <span>Quản lí comment</span>
+                </router-link>
             </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
+            <hr class="sidebar-divider my-0">
+            <li :class="($route.path == '/category' || $route.path == '/post')?'active nav-item':'nav-item'">
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
                     aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>Tin tức</span>
                 </a>
-                <div id="collapsePages" class="collapse show" aria-labelledby="headingPages"
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <router-link to="/category" class="collapse-item">Thể loại</router-link>
@@ -40,23 +31,26 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item">
-                <router-link to="/img" class="nav-link" href="admin/vechungtoi">
+            <hr class="sidebar-divider my-0">
+            <li :class="($route.path == '/img')?'active nav-item':'nav-item'">
+                <router-link to="/img" class="nav-link">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Quản lí ảnh</span>
                 </router-link>
             </li>
-            <li class="nav-item">
-                <router-link to="/user" class="nav-link" href="admin/lienhe">
+            <hr class="sidebar-divider my-0">
+            <li :class="($route.path == '/user')?'active nav-item':'nav-item'">
+                <router-link to="/user" class="nav-link">
                     <i class="fas fa-heart"></i>
                     <span>Quản lí user</span>
                 </router-link>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="admin/hinhanhchung">
+            <hr class="sidebar-divider my-0">
+            <li :class="($route.path == '/contact')?'active nav-item':'nav-item'">
+                <router-link to="/contact" class="nav-link">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Hình ảnh về chúng tôi</span>
-                </a>
+                    <span>Liên hệ</span>
+                </router-link>
             </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
