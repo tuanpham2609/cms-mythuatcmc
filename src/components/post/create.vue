@@ -28,8 +28,9 @@
                             <fieldset class="form-group">
                                 <div class="form-group">
                                     <label for="">Thể loại tin tức:</label>
-                                    <select class="form-control" v-model="post.idCategory">
-                                        <option v-for="(item, index) in categories" :key="index" :value="item.id">
+                                    <select class="form-control" v-model="post.idCategory" @change="SortType($event)">
+                                        <option :value="undefined">Choose Option</option>
+                                        <option v-for="(item, index) in categories" :key="index" :value="item.id" :name="item.slug">
                                             {{item.name}}
                                         </option>
                                     </select>
@@ -86,7 +87,8 @@
         data() {
             return {
                 post: {
-                    idCategory: null,
+                    idCategory: undefined,
+                    slugCategory: undefined,
                     name:'',
                     slug:'',
                     short_content: '',
@@ -124,7 +126,6 @@
                 vm.$http.get(`${vm.$store.state.api}/admin/category-all`)
                     .then(function (res) {
                         vm.categories = res.data.categories;
-                        vm.post.idCategory = vm.categories[0].id;
                         vm.$store.state.loading = false;
                     })
                     .catch(function (error) {
@@ -153,6 +154,14 @@
             },
             Back(){
                 this.$router.push({ name: "Post" });
+            },
+            SortType($event) {
+                var vm = this;
+                vm.categories.forEach(el => {
+                    if(el.id == $event.target.value){
+                        vm.post.slugCategory = el.slug;
+                    }
+                });
             }
         }
     }
