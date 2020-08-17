@@ -29,7 +29,6 @@
                                 <div class="form-group">
                                     <label for="">Thể loại tin tức:</label>
                                     <select class="form-control" v-model="post.idCategory" @change="SortType($event)">
-                                        <option :value="undefined">Choose Option</option>
                                         <option v-for="(item, index) in categories" :key="index" :value="item.id" :name="item.slug">
                                             {{item.name}}
                                         </option>
