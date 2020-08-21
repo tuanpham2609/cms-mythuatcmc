@@ -45,7 +45,6 @@
       <ckeditor v-on:dataCkeditor="getdataCkeditor"></ckeditor>
       <uploadimg v-on:dataImages="getdataImage"></uploadimg>
     </div>
-    <!-- modal create -->
     <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
