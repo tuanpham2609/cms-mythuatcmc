@@ -13,6 +13,7 @@ import EditPost from "../components/post/edit.vue";
 import User from "../components/user/user.vue";
 import Contact from "../components/contact/contact.vue";
 import Comment from "../components/comment/comment.vue";
+import Err_404 from "../components/404/404.vue";
 
 Vue.use(VueRouter);
 
@@ -157,6 +158,10 @@ const routes = [
       next();
     }
   },
+  { path: "*", 
+    name: 'Err_404',
+    component: Err_404 
+  }
 ];
 
 const router = new VueRouter({
