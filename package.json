@@ -12,7 +12,7 @@
     "@tinymce/tinymce-vue": "^3.2.2",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "save-static": "^1.0.2",
     "vue": "^2.6.11",
     "vue-cropperjs": "^4.1.0",
